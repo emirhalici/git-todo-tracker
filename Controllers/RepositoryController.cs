@@ -8,23 +8,24 @@ namespace git_todo_tracker.Controllers;
 public class RepositoryController : ControllerBase
 {
     [HttpGet("list")]
-    public IEnumerable<string> ListRepositories()
+    public ActionResult<IEnumerable<string>> ListRepositories()
     {
-        return new string[] {
+        return Ok(new string[] {
             "repo-id-1",
             "repo-id-2",
-        };
+        });
     }
 
     [HttpPost("register")]
-    public string RegisterGitRepository(RegisterGitRepositoryRequest registerGitRepositoryRequest)
+    public ActionResult<string> RegisterGitRepository(RegisterGitRepositoryRequest registerGitRepositoryRequest)
     {
-        return "repo-id";
+        return Ok("repo-id");
     }
 
     [HttpDelete("remove")]
-    public void RemoveGitRepository(string repoId)
+    public ActionResult RemoveGitRepository(string repoId)
     {
+        return Ok();
     }
 }
 

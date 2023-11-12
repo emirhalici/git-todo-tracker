@@ -14,17 +14,17 @@ public class TodoController : ControllerBase
     }
 
     [HttpGet("list")]
-    public IEnumerable<string> List(string repoId)
+    public ActionResult<IEnumerable<string>> List(string repoId)
     {
-        return new string[] {
+        return Ok(new string[] {
             "do something",
             "do something else"
-        };
+        });
     }
 
     [HttpPost("convert-to-issue")]
-    public bool ConvertToIssue(ConvertToIssueRequest convertToIssueRequest)
+    public ActionResult<bool> ConvertToIssue(ConvertToIssueRequest convertToIssueRequest)
     {
-        return false;
+        return Ok(false);
     }
 }

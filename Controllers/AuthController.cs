@@ -19,27 +19,27 @@ public class AuthController : ControllerBase
     }
 
     [HttpGet("me")]
-    public string GetMe()
+    public ActionResult<string> GetMe()
     {
-        return "user-id";
+        return Ok("user-id");
     }
 
     [HttpPost("register")]
-    public string Register()
+    public ActionResult<string> Register()
     {
-        return "access-token";
+        return Ok("access-token");
     }
 
     [HttpPost("login")]
-    public string Login(LoginRequest loginRequest)
+    public ActionResult<string> Login(LoginRequest loginRequest)
     {
-        return "access-token";
+        return Ok("access-token");
     }
 
     [HttpPost("refresh-token")]
-    public string RefreshToken()
+    public ActionResult<string> RefreshToken()
     {
-        return "access-token";
+        return Ok("access-token");
     }
 
     [HttpPost("recovery/initiate")]
@@ -48,8 +48,8 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("recovery/reset-password")]
-    public PasswordResetResponse InitiateRecovery(PasswordResetRequest passwordResetRequest)
+    public ActionResult<PasswordResetResponse> InitiateRecovery(PasswordResetRequest passwordResetRequest)
     {
-        return new PasswordResetResponse() { Message = "Internal failure" };
+        return Ok(new PasswordResetResponse() { Message = "Internal failure" });
     }
 }
