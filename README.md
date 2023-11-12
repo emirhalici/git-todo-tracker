@@ -18,3 +18,8 @@ See this [document](https://docs.google.com/document/d/1rbawcy05nQbd9XHw2ykaGYU4
 - [ ] [GET] `api/repository/list`
 - [ ] [POST] `api/repository/register`
 - [ ] [DELETE] `api/repository/remove`
+
+#### Todo
+
+- [ ] [GET] `/api/todo/list`
+- [ ] [POST] `/api/todo/convert-to-issue`
