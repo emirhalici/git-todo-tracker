@@ -1,4 +1,5 @@
 using git_todo_tracker.Dtos.Todo;
+using git_todo_tracker.Services.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace git_todo_tracker.Controllers;
@@ -7,25 +8,33 @@ namespace git_todo_tracker.Controllers;
 [Route("api/repository")]
 public class RepositoryController : ControllerBase
 {
+    private readonly IRepositoryService repositoryService;
+
+    public RepositoryController(IRepositoryService repositoryService)
+    {
+        this.repositoryService = repositoryService;
+    }
+
     [HttpGet("list")]
     public ActionResult<IEnumerable<string>> ListRepositories()
     {
-        return Ok(new string[] {
-            "repo-id-1",
-            "repo-id-2",
-        });
+        var repos = repositoryService.GetAllRepositories();
+        return Ok(repos);
     }
 
     [HttpPost("register")]
     public ActionResult<string> RegisterGitRepository(RegisterGitRepositoryRequest registerGitRepositoryRequest)
     {
-        return Ok("repo-id");
+        // TODO: Convert to PUT request if id is generated on server
+        var registeredRepository = repositoryService.RegisterGitRepository(registerGitRepositoryRequest);
+        return Ok(registeredRepository.Id);
     }
 
     [HttpDelete("remove")]
     public ActionResult RemoveGitRepository(string repoId)
     {
-        return Ok();
+        var removed = repositoryService.RemoveGitRepository(repoId);
+        return removed ? Ok() : BadRequest();
     }
 }
 
