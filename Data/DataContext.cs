@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 namespace git_todo_tracker.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<User>
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
@@ -14,7 +16,5 @@ namespace git_todo_tracker.Data
         public DbSet<GitRepository> GitRepositories { get; set; }
 
         public DbSet<RefreshToken> RefreshTokens { get; set; }
-
-        public DbSet<User> Users { get; set; }
     }
 }
