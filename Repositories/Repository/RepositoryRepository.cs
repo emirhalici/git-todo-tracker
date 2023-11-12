@@ -16,9 +16,9 @@ namespace git_todo_tracker.Repositories.Repository
 
         private List<GitRepository> repositories = new() {
             new GitRepository() {
-                Id = "git-repository-0",
+                Id = "0",
                 UserName = "emirhalici",
-                ProjectName = "iot_smart_home"
+                ProjectName = "git-todo-tracker"
             }
         };
 

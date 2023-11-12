@@ -15,6 +15,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IRepositoryService, RepositoryService>();
 builder.Services.AddSingleton<IRepositoryRepository, RepositoryRepository>();
+builder.Services.AddSingleton<GitRepositoryService>();
 
 var app = builder.Build();
 
