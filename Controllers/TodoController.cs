@@ -1,6 +1,7 @@
 using git_todo_tracker.Dtos.Todo;
 using git_todo_tracker.Repositories.Repository;
 using git_todo_tracker.Services.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 namespace git_todo_tracker.Controllers;
 
@@ -19,6 +20,7 @@ public class TodoController : ControllerBase
         this.repositoryRepository = repositoryRepository;
     }
 
+    [Authorize]
     [HttpGet("list")]
     public async Task<ActionResult<IEnumerable<string>>> List(string repoId)
     {
@@ -32,6 +34,7 @@ public class TodoController : ControllerBase
         return Ok(gitRepositoryService.ScanForTodos(repository));
     }
 
+    [Authorize]
     [HttpPost("convert-to-issue")]
     public async Task<ActionResult<bool>> ConvertToIssue(ConvertToIssueRequest convertToIssueRequest)
     {

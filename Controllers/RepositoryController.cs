@@ -1,5 +1,6 @@
 using git_todo_tracker.Dtos.Todo;
 using git_todo_tracker.Services.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace git_todo_tracker.Controllers;
@@ -15,6 +16,7 @@ public class RepositoryController : ControllerBase
         this.repositoryService = repositoryService;
     }
 
+    [Authorize]
     [HttpGet("list")]
     public async Task<ActionResult<IEnumerable<string>>> ListRepositories()
     {
@@ -22,6 +24,7 @@ public class RepositoryController : ControllerBase
         return Ok(repos);
     }
 
+    [Authorize]
     [HttpPost("register")]
     public async Task<ActionResult<string>> RegisterGitRepository(RegisterGitRepositoryRequest registerGitRepositoryRequest)
     {
@@ -30,6 +33,7 @@ public class RepositoryController : ControllerBase
         return Ok(registeredRepository.Id);
     }
 
+    [Authorize]
     [HttpDelete("remove")]
     public async Task<ActionResult> RemoveGitRepository(string repoId)
     {

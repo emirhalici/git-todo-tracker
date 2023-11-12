@@ -31,16 +31,20 @@ public class AuthController : ControllerBase
     public async Task<ActionResult<AuthResponse>> Register(RegisterRequest registerRequest)
     {
         var response = await authService.Register(registerRequest);
-        bool success = response.RefreshToken is null || response.AccessToken is null;
-        return success ? Ok(response) : BadRequest(response);
+        return new ObjectResult(response)
+        {
+            StatusCode = response.StatusCode
+        };
     }
 
     [HttpPost("login")]
     public async Task<ActionResult<AuthResponse>> Login(LoginRequest loginRequest)
     {
         var response = await authService.Login(loginRequest);
-        bool success = response.RefreshToken is null || response.AccessToken is null;
-        return success ? Ok(response) : BadRequest(response);
+        return new ObjectResult(response)
+        {
+            StatusCode = response.StatusCode
+        };
     }
 
     [HttpPost("refresh-token")]
