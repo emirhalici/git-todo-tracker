@@ -478,3 +478,4 @@ $RECYCLE.BIN/
 
 # Saved git repositories
 GitRepositories
+GitRepositories/**/*
