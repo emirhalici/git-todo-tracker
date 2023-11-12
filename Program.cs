@@ -1,3 +1,4 @@
+global using git_todo_tracker.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

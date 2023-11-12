@@ -8,7 +8,7 @@ namespace git_todo_tracker.Dtos.Todo
     public class RegisterGitRepositoryRequest
     {
         public required string UserName { get; set; }
-        public required string RepositoryName { get; set; }
+        public required string ProjectName { get; set; }
         public required string GitRepositoryUrl { get; set; }
     }
 }
