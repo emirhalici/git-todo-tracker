@@ -7,6 +7,7 @@ using git_todo_tracker.Services;
 using git_todo_tracker.Services.Repository;
 using git_todo_tracker.Repositories.Repository;
 using git_todo_tracker.Data;
+using git_todo_tracker.Services.Auth;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<DataContext>(options =>
@@ -15,6 +16,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IRepositoryService, RepositoryService>();
 builder.Services.AddScoped<IRepositoryRepository, RepositoryRepository>();
 builder.Services.AddScoped<GitRepositoryService>();
