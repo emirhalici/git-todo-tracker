@@ -22,17 +22,17 @@ namespace git_todo_tracker.Repositories.Repository
             }
         };
 
-        public IEnumerable<GitRepository> GetAll()
+        public async Task<IEnumerable<GitRepository>> GetAll()
         {
             return repositories;
         }
 
-        public GitRepository? GetById(string repoId)
+        public async Task<GitRepository?> GetById(string repoId)
         {
             return repositories.SingleOrDefault(r => r?.Id == repoId, null);
         }
 
-        public GitRepository Register(RegisterGitRepositoryRequest registerGitRepositoryRequest)
+        public async Task<GitRepository> Register(RegisterGitRepositoryRequest registerGitRepositoryRequest)
         {
             var id = $"git-repository-{repositories.Count}";
             var newRepository = GitRepository.FromRegisterRequest(id, registerGitRepositoryRequest);
@@ -40,7 +40,7 @@ namespace git_todo_tracker.Repositories.Repository
             return newRepository;
         }
 
-        public bool RemoveById(string repoId)
+        public async Task<bool> RemoveById(string repoId)
         {
             var repoToBeRemoved = repositories.SingleOrDefault(r => r?.Id == repoId, null);
             return repoToBeRemoved is not null && repositories.Remove(repoToBeRemoved);
