@@ -34,7 +34,7 @@ public class RepositoryController : ControllerBase
     public ActionResult RemoveGitRepository(string repoId)
     {
         var removed = repositoryService.RemoveGitRepository(repoId);
-        return removed ? Ok() : BadRequest();
+        return removed ? Ok("success!") : BadRequest("failed");
     }
 }
 
