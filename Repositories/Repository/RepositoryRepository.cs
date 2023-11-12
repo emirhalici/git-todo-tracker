@@ -2,48 +2,55 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using git_todo_tracker.Data;
 
 namespace git_todo_tracker.Repositories.Repository
 {
     public class RepositoryRepository : IRepositoryRepository
     {
-        private readonly ILogger<RepositoryRepository> _logger;
+        private readonly ILogger<RepositoryRepository> logger;
+        private readonly DataContext context;
 
-        public RepositoryRepository(ILogger<RepositoryRepository> logger)
+        public RepositoryRepository(ILogger<RepositoryRepository> logger, DataContext context)
         {
-            _logger = logger;
+            this.logger = logger;
+            this.context = context;
         }
 
-        private List<GitRepository> repositories = new() {
-            new GitRepository() {
-                Id = "0",
-                UserName = "emirhalici",
-                ProjectName = "git-todo-tracker"
-            }
-        };
 
         public async Task<IEnumerable<GitRepository>> GetAll()
         {
-            return repositories;
+            return await context.GitRepositories.ToListAsync();
         }
 
         public async Task<GitRepository?> GetById(string repoId)
         {
-            return repositories.SingleOrDefault(r => r?.Id == repoId, null);
+            return await context.GitRepositories.FindAsync(repoId);
         }
 
         public async Task<GitRepository> Register(RegisterGitRepositoryRequest registerGitRepositoryRequest)
         {
-            var id = $"git-repository-{repositories.Count}";
+            var id = Guid.NewGuid().ToString();
             var newRepository = GitRepository.FromRegisterRequest(id, registerGitRepositoryRequest);
-            repositories.Add(newRepository);
+            context.GitRepositories.Add(newRepository);
+            await context.SaveChangesAsync();
             return newRepository;
         }
 
         public async Task<bool> RemoveById(string repoId)
         {
-            var repoToBeRemoved = repositories.SingleOrDefault(r => r?.Id == repoId, null);
-            return repoToBeRemoved is not null && repositories.Remove(repoToBeRemoved);
+            var repoToBeRemoved = await context.GitRepositories.FindAsync(repoId);
+            if (repoToBeRemoved is null)
+            {
+                return false;
+            }
+            else
+            {
+                context.GitRepositories.Remove(repoToBeRemoved);
+                await context.SaveChangesAsync();
+                return true;
+            }
+
         }
     }
 }

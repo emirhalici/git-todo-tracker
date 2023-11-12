@@ -16,24 +16,24 @@ public class RepositoryController : ControllerBase
     }
 
     [HttpGet("list")]
-    public ActionResult<IEnumerable<string>> ListRepositories()
+    public async Task<ActionResult<IEnumerable<string>>> ListRepositories()
     {
-        var repos = repositoryService.GetAllRepositories();
+        var repos = await repositoryService.GetAllRepositories();
         return Ok(repos);
     }
 
     [HttpPost("register")]
-    public ActionResult<string> RegisterGitRepository(RegisterGitRepositoryRequest registerGitRepositoryRequest)
+    public async Task<ActionResult<string>> RegisterGitRepository(RegisterGitRepositoryRequest registerGitRepositoryRequest)
     {
         // TODO: Convert to PUT request if id is generated on server
-        var registeredRepository = repositoryService.RegisterGitRepository(registerGitRepositoryRequest);
+        var registeredRepository = await repositoryService.RegisterGitRepository(registerGitRepositoryRequest);
         return Ok(registeredRepository.Id);
     }
 
     [HttpDelete("remove")]
-    public ActionResult RemoveGitRepository(string repoId)
+    public async Task<ActionResult> RemoveGitRepository(string repoId)
     {
-        var removed = repositoryService.RemoveGitRepository(repoId);
+        var removed = await repositoryService.RemoveGitRepository(repoId);
         return removed ? Ok("success!") : BadRequest("failed");
     }
 }

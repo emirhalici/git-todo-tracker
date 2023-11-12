@@ -20,9 +20,9 @@ public class TodoController : ControllerBase
     }
 
     [HttpGet("list")]
-    public ActionResult<IEnumerable<string>> List(string repoId)
+    public async Task<ActionResult<IEnumerable<string>>> List(string repoId)
     {
-        var repository = repositoryRepository.GetById(repoId);
+        var repository = await repositoryRepository.GetById(repoId);
         if (repository is null)
         {
             return NotFound($"Git repository of {repoId} not found. Please register the repository first.");
@@ -33,7 +33,7 @@ public class TodoController : ControllerBase
     }
 
     [HttpPost("convert-to-issue")]
-    public ActionResult<bool> ConvertToIssue(ConvertToIssueRequest convertToIssueRequest)
+    public async Task<ActionResult<bool>> ConvertToIssue(ConvertToIssueRequest convertToIssueRequest)
     {
         return Ok(false);
     }

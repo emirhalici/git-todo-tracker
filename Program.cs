@@ -15,9 +15,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<IRepositoryService, RepositoryService>();
-builder.Services.AddSingleton<IRepositoryRepository, RepositoryRepository>();
-builder.Services.AddSingleton<GitRepositoryService>();
+builder.Services.AddScoped<IRepositoryService, RepositoryService>();
+builder.Services.AddScoped<IRepositoryRepository, RepositoryRepository>();
+builder.Services.AddScoped<GitRepositoryService>();
 
 var app = builder.Build();
 

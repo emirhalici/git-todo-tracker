@@ -12,19 +12,19 @@ namespace git_todo_tracker.Services
             this.repository = repository;
         }
 
-        public IEnumerable<GitRepository> GetAllRepositories()
+        public async Task<IEnumerable<GitRepository>> GetAllRepositories()
         {
-            return repository.GetAll();
+            return await repository.GetAll();
         }
 
-        public GitRepository RegisterGitRepository(RegisterGitRepositoryRequest registerGitRepositoryRequest)
+        public async Task<GitRepository> RegisterGitRepository(RegisterGitRepositoryRequest registerGitRepositoryRequest)
         {
-            return repository.Register(registerGitRepositoryRequest);
+            return await repository.Register(registerGitRepositoryRequest);
         }
 
-        public bool RemoveGitRepository(string repoId)
+        public async Task<bool> RemoveGitRepository(string repoId)
         {
-            return repository.RemoveById(repoId);
+            return await repository.RemoveById(repoId);
         }
     }
 }
