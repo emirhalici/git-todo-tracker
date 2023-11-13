@@ -15,12 +15,15 @@ namespace git_todo_tracker.Services.Auth
         private readonly IConfiguration configuration;
         private readonly IRefreshTokenRepository refreshTokenRepository;
 
-        public AuthService(SignInManager<User> signInManager, UserManager<User> userManager, IConfiguration configuration, IRefreshTokenRepository refreshTokenRepository)
+        private readonly ILogger<AuthService> logger;
+
+        public AuthService(SignInManager<User> signInManager, UserManager<User> userManager, IConfiguration configuration, IRefreshTokenRepository refreshTokenRepository, ILogger<AuthService> logger)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
             this.configuration = configuration;
             this.refreshTokenRepository = refreshTokenRepository;
+            this.logger = logger;
         }
 
         public async Task<AuthResponse> Login(LoginRequest loginRequest)
@@ -112,15 +115,26 @@ namespace git_todo_tracker.Services.Auth
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(configuration["Jwt:Secret"]!);
 
+            var notBefore = DateTime.UtcNow.ToUniversalTime();
+            var issuedAt = DateTime.UtcNow.AddSeconds(1).ToUniversalTime();
+            var expires = DateTime.UtcNow.AddMinutes(5).ToUniversalTime();
+
+            var claims = new List<Claim> {
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new(JwtRegisteredClaimNames.Sub, user.Email ?? "empty-email"),
+                new(JwtRegisteredClaimNames.Email, user.Email ?? "empty-email"),
+                new(JwtRegisteredClaimNames.Iss, configuration["Jwt:Issuer"] ?? "empty-issuer"),
+            };
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[]
-                {
-                new Claim(ClaimTypes.Name, user.UserName!),
-                new Claim(ClaimTypes.Email, user.Email!),
-            }),
-                Expires = DateTime.UtcNow.AddMinutes(15),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
+                Subject = new ClaimsIdentity(claims),
+                Expires = expires,
+                IssuedAt = issuedAt,
+                NotBefore = notBefore,
+                Issuer = configuration["Jwt:Issuer"],
+                Audience = configuration["Jwt:Audience"],
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
