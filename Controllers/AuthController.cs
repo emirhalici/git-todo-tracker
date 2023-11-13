@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using git_todo_tracker.Dtos.Auth;
 using git_todo_tracker.Services.Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace git_todo_tracker.Controllers;
@@ -21,10 +22,16 @@ public class AuthController : ControllerBase
         this.authService = authService;
     }
 
+    [Authorize]
     [HttpGet("me")]
-    public ActionResult<string> GetMe()
+    public async Task<ActionResult> GetMe()
     {
-        return Ok("user-id");
+        string authorizationHeader = HttpContext.Request.Headers["Authorization"].ToString() ?? "";
+        bool headerValidFormat = !string.IsNullOrEmpty(authorizationHeader) && authorizationHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase);
+        string accessToken = authorizationHeader.Substring("Bearer ".Length).Trim();
+        var user = await authService.GetUserFromAccessToken(accessToken);
+
+        return Ok(user is null ? accessToken : user);
     }
 
     [HttpPost("register")]

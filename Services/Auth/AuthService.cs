@@ -141,6 +141,33 @@ namespace git_todo_tracker.Services.Auth
             };
         }
 
+        public async Task<User?> GetUserFromAccessToken(string accessToken)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            try
+            {
+                if (!tokenHandler.CanReadToken(accessToken))
+                {
+                    return null;
+                }
+                var token = tokenHandler.ReadJwtToken(accessToken);
+                var email = token.Claims.SingleOrDefault(c => c?.Type == JwtRegisteredClaimNames.Email, null)?.Value;
+                if (string.IsNullOrEmpty(email))
+                {
+                    return null;
+                }
+                return await userManager.FindByEmailAsync(email);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+                logger.LogError(ex.StackTrace);
+            }
+
+            return null;
+        }
+
         private string GenerateAccessToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

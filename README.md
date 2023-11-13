@@ -26,10 +26,10 @@ Server=localhost,2022;User Id=SA;Password=GitTodoTracker123#;MultipleActiveResul
 
 #### Auth
 
-- [ ] [GET] `/api/auth/me`
-- [ ] [POST] `/api/auth/register`
-- [ ] [POST] `/api/auth/login`
-- [ ] [POST] `/api/auth/refresh-token`
+- [x] [GET] `/api/auth/me`
+- [x] [POST] `/api/auth/register`
+- [x] [POST] `/api/auth/login`
+- [x] [POST] `/api/auth/refresh-token`
 - [ ] [POST] `/api/auth/recovery/initiate`
 - [ ] [POST] `/api/auth/recovery/reset-password`
 

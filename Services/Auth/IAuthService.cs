@@ -5,5 +5,6 @@ namespace git_todo_tracker.Services.Auth
         public Task<AuthResponse> Register(RegisterRequest registerRequest);
         public Task<AuthResponse> Login(LoginRequest loginRequest);
         public Task<AuthResponse> RefreshToken(string refreshToken);
+        public Task<User?> GetUserFromAccessToken(string accessToken);
     }
 }
