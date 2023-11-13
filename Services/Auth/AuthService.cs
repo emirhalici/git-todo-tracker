@@ -110,6 +110,37 @@ namespace git_todo_tracker.Services.Auth
             };
         }
 
+        public async Task<AuthResponse> RefreshToken(string refreshToken)
+        {
+            var invalidAuthResponse = new AuthResponse()
+            {
+                AccessToken = null,
+                RefreshToken = null,
+                Message = "Invalid token",
+                StatusCode = 403,
+            };
+            var storedToken = await refreshTokenRepository.GetByToken(refreshToken);
+            if (storedToken is null)
+            {
+                return invalidAuthResponse;
+            }
+
+            var user = await userManager.FindByIdAsync(storedToken.UserId);
+            if (user is null)
+            {
+                return invalidAuthResponse;
+            }
+
+            var accessToken = GenerateAccessToken(user);
+            return new AuthResponse()
+            {
+                AccessToken = accessToken,
+                RefreshToken = refreshToken,
+                Message = "Successful.",
+                StatusCode = 200,
+            };
+        }
+
         private string GenerateAccessToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

@@ -48,9 +48,13 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("refresh-token")]
-    public ActionResult<string> RefreshToken()
+    public async Task<ActionResult<AuthResponse>> RefreshToken(string refreshToken)
     {
-        return Ok("access-token");
+        var response = await authService.RefreshToken(refreshToken);
+        return new ObjectResult(response)
+        {
+            StatusCode = response.StatusCode
+        };
     }
 
     [HttpPost("recovery/initiate")]

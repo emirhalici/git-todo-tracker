@@ -29,5 +29,10 @@ namespace git_todo_tracker.Repositories.RefreshToken
             await context.SaveChangesAsync();
             return refreshToken;
         }
+
+        public async Task<Models.RefreshToken?> GetByToken(string refreshToken)
+        {
+            return await context.RefreshTokens.FindAsync(refreshToken);
+        }
     }
 }
