@@ -7,6 +7,8 @@
     <RootNamespace>git_todo_tracker</RootNamespace>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
   <ItemGroup>
     <Compile Remove="GitRepositories\**\*" />
     <PackageReference Include="LibGit2Sharp" Version="0.28.0" />
