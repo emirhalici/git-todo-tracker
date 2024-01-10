@@ -175,7 +175,7 @@ namespace git_todo_tracker.Services.Auth
 
             var notBefore = DateTime.UtcNow.ToUniversalTime();
             var issuedAt = DateTime.UtcNow.AddSeconds(1).ToUniversalTime();
-            var expires = DateTime.UtcNow.AddMinutes(5).ToUniversalTime();
+            var expires = DateTime.UtcNow.AddMinutes(20).ToUniversalTime();
 
             var claims = new List<Claim> {
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
