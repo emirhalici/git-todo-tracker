@@ -33,11 +33,4 @@ public class TodoController : ControllerBase
         gitRepositoryService.CloneOrPullRepository(repository);
         return Ok(gitRepositoryService.ScanForTodos(repository));
     }
-
-    [Authorize]
-    [HttpPost("convert-to-issue")]
-    public async Task<ActionResult<bool>> ConvertToIssue(ConvertToIssueRequest convertToIssueRequest)
-    {
-        return Ok(false);
-    }
 }

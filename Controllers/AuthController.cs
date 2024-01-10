@@ -63,15 +63,4 @@ public class AuthController : ControllerBase
             StatusCode = response.StatusCode
         };
     }
-
-    [HttpPost("recovery/initiate")]
-    public void InitiateRecovery(InitiateRecoveryRequest initiateRecoveryRequest)
-    {
-    }
-
-    [HttpPost("recovery/reset-password")]
-    public ActionResult<PasswordResetResponse> InitiateRecovery(PasswordResetRequest passwordResetRequest)
-    {
-        return Ok(new PasswordResetResponse() { Message = "Internal failure" });
-    }
 }
